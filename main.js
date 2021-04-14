@@ -58,14 +58,14 @@ const createPlayer = (playerObj) => {
   return $player;
 };
 
-const playerWon = (name) => {
-  const $wonTitle = createElement('div', 'wonTitle');
+const playerWins = (name) => {
+  const $winsTitle = createElement('div', 'winsTitle');
   if (name) {
-    $wonTitle.innerText = name + ' won';
+    $winsTitle.innerText = name + ' wins';
   } else {
-    $wonTitle.innerText = 'draw';
+    $winsTitle.innerText = 'draw';
   }
-  return $wonTitle;
+  return $winsTitle;
 };
 
 function getRandom(num) {
@@ -113,11 +113,11 @@ $randomButton.addEventListener('click', function () {
   }
 
   if (player1.hp === 0 && player1.hp < player2.hp) {
-    $arenas.appendChild(playerWon(player2.name));
+    $arenas.appendChild(playerWins(player2.name));
   } else if (player2.hp === 0 && player2.hp < player1.hp) {
-    $arenas.appendChild(playerWon(player1.name));
+    $arenas.appendChild(playerWins(player1.name));
   } else if (player1.hp === 0 && player2.hp === 0) {
-    $arenas.appendChild(playerWon());
+    $arenas.appendChild(playerWins());
   }
 });
 
