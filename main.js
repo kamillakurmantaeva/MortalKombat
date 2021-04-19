@@ -17,7 +17,6 @@ const logs = {
     '[playerDefence] пытался сконцентрироваться, но [playerKick] разбежавшись раздробил копчиком левое ухо врага.',
     '[playerDefence] расстроился, как вдруг, неожиданно [playerKick] случайно раздробил грудью грудину противника.',
     '[playerDefence] зажмурился, а в это время [playerKick], прослезившись, раздробил кулаком пах оппонента.',
-    '[playerDefence] чесал <вырезано цензурой>, и внезапно неустрашимый [playerKick] отчаянно размозжил грудью левый бицепс оппонента.',
     '[playerDefence] задумался, но внезапно [playerKick] случайно влепил грубый удар копчиком в пояс оппонента.',
     '[playerDefence] ковырялся в зубах, но [playerKick] проснувшись влепил тяжелый удар пальцем в кадык врага.',
     '[playerDefence] вспомнил что-то важное, но внезапно [playerKick] зевнув, размозжил открытой ладонью челюсть противника.',
@@ -193,23 +192,13 @@ function determineWinner() {
     generateLogs('end', player1, player2);
     $arenas.appendChild(playerWins(player1.name));
   } else if (player1.hp === 0 && player2.hp === 0) {
-    generateLogs();
+    generateLogs('draw');
     $arenas.appendChild(playerWins());
   }
 }
 
 function generateLogs(type, player1, player2, value = 0) {
   const date = new Date();
-
-  if (type === 'hit' || type === 'defence') {
-    const text = logs[type][getRandom(logs[type].length) - 1]
-      .replace('[playerKick]', player1.name)
-      .replace('[playerDefence]', player2.name);
-    const el = `<p>${date.getHours()}:${date.getMinutes()}:${date.getSeconds()} - ${text} ${-value} [${
-      player2.hp
-    }/100]</p>`;
-    return $chat.insertAdjacentHTML('afterbegin', el);
-  }
 
   switch (type) {
     case 'start':
@@ -223,6 +212,17 @@ function generateLogs(type, player1, player2, value = 0) {
           .replace('[player1]', player1.name)
           .replace('[player2]', player2.name)
       );
+
+    case 'hit':
+    case 'defence':
+      const text = logs[type][getRandom(logs[type].length) - 1]
+        .replace('[playerKick]', player1.name)
+        .replace('[playerDefence]', player2.name);
+      const el = `<p>${date.getHours()}:${date.getMinutes()}:${date.getSeconds()} - ${text} ${-value} [${
+        player2.hp
+      }/100]</p>`;
+      return $chat.insertAdjacentHTML('afterbegin', el);
+
     case 'end':
       return $chat.insertAdjacentHTML(
         'afterbegin',
@@ -230,8 +230,12 @@ function generateLogs(type, player1, player2, value = 0) {
           .replace('[playerWins]', player1.name)
           .replace('[playerLose]', player2.name)
       );
-    default:
+
+    case 'draw':
       return $chat.insertAdjacentHTML('afterbegin', logs.draw);
+
+    default:
+      break;
   }
 }
 
