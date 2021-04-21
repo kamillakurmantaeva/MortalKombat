@@ -1,4 +1,4 @@
-import { getRandom } from './utils.js';
+import getRandom from './utils.js';
 
 const $chat = document.querySelector('.chat');
 
@@ -47,7 +47,7 @@ const getTime = () => {
   return `${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}`;
 };
 
-export const generateLogs = (type, player1, player2, value = 0) => {
+const generateLogs = (type, player1, player2, value = 0) => {
   switch (type) {
     case 'start':
       return $chat.insertAdjacentHTML(
@@ -77,3 +77,5 @@ export const generateLogs = (type, player1, player2, value = 0) => {
       break;
   }
 };
+
+export default generateLogs;

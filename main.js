@@ -1,5 +1,5 @@
 import { player1, player2 } from './players.js';
-import { generateLogs } from './logs.js';
+import generateLogs from './logs.js';
 import {
   createPlayer,
   createReloadButton,
