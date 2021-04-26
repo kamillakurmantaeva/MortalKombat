@@ -47,29 +47,29 @@ const getTime = () => {
   return `${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}`;
 };
 
-const generateLogs = (type, player1, player2, value = 0) => {
+const generateLogs = (type, { name }, { name: name2, hp }, value = 0) => {
   switch (type) {
     case 'start':
       return $chat.insertAdjacentHTML(
         'afterbegin',
         logs.start
           .replace('[time]', getTime())
-          .replace('[player1]', player1.name)
-          .replace('[player2]', player2.name)
+          .replace('[player1]', name)
+          .replace('[player2]', name2)
       );
     case 'hit':
     case 'defence':
       const text = logs[type][getRandom(logs[type].length) - 1]
-        .replace('[playerKick]', player1.name)
-        .replace('[playerDefence]', player2.name);
-      const el = `<p>${getTime()} - ${text} ${-value} [${player2.hp}/100]</p>`;
+        .replace('[playerKick]', name)
+        .replace('[playerDefence]', name2);
+      const el = `<p>${getTime()} - ${text} ${-value} [${hp}/100]</p>`;
       return $chat.insertAdjacentHTML('afterbegin', el);
     case 'end':
       return $chat.insertAdjacentHTML(
         'afterbegin',
         logs.end[getRandom(logs.end.length) - 1]
-          .replace('[playerWins]', player1.name)
-          .replace('[playerLose]', player2.name)
+          .replace('[playerWins]', name)
+          .replace('[playerLose]', name2)
       );
     case 'draw':
       return $chat.insertAdjacentHTML('afterbegin', logs.draw);
