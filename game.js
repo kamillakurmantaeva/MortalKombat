@@ -8,11 +8,13 @@ import {
 import { enemyAttack, playerAttack } from './attack.js';
 
 class Game {
-  start = () => {
-    const $arenas = document.querySelector('.arenas');
-    const $formFight = document.querySelector('.control');
-    const $fightButton = document.querySelector('.button');
+  constructor() {
+    this.$arenas = document.querySelector('.arenas');
+    this.$formFight = document.querySelector('.control');
+    this.$fightButton = document.querySelector('.button');
+  }
 
+  start = () => {
     const player1 = new Player({
       player: 1,
       name: 'SCORPION',
@@ -27,8 +29,8 @@ class Game {
       img: 'http://reactmarathon-api.herokuapp.com/assets/subzero.gif',
     });
 
-    $arenas.appendChild(createPlayer(player1));
-    $arenas.appendChild(createPlayer(player2));
+    this.$arenas.appendChild(createPlayer(player1));
+    this.$arenas.appendChild(createPlayer(player2));
 
     generateLogs('start', player1, player2);
 
@@ -45,22 +47,22 @@ class Game {
 
     const determineWinner = () => {
       if (player1.hp === 0 || player2.hp === 0) {
-        $fightButton.disabled = true;
-        $arenas.appendChild(createReloadButton());
+        this.$fightButton.disabled = true;
+        this.$arenas.appendChild(createReloadButton());
       }
       if (player1.hp === 0 && player1.hp < player2.hp) {
         generateLogs('end', player2, player1);
-        $arenas.appendChild(playerWins(player2.name));
+        this.$arenas.appendChild(playerWins(player2.name));
       } else if (player2.hp === 0 && player2.hp < player1.hp) {
         generateLogs('end', player1, player2);
-        $arenas.appendChild(playerWins(player1.name));
+        this.$arenas.appendChild(playerWins(player1.name));
       } else if (player1.hp === 0 && player2.hp === 0) {
         generateLogs('draw');
-        $arenas.appendChild(playerWins());
+        this.$arenas.appendChild(playerWins());
       }
     };
 
-    $formFight.addEventListener('submit', function (e) {
+    this.$formFight.addEventListener('submit', function (e) {
       e.preventDefault();
       const enemy = enemyAttack();
       const player = playerAttack();
