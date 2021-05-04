@@ -6,6 +6,7 @@ import {
   playerWins,
 } from './createElement.js';
 import { enemyAttack, playerAttack } from './attack.js';
+import getRandom from './utils.js';
 
 class Game {
   constructor() {
@@ -14,20 +15,16 @@ class Game {
     this.$fightButton = document.querySelector('.button');
   }
 
-  start = () => {
-    const player1 = new Player({
-      player: 1,
-      name: 'SCORPION',
-      hp: 100,
-      img: 'http://reactmarathon-api.herokuapp.com/assets/scorpion.gif',
-    });
+  start = async () => {
+    this.$arenas.classList.add(`arena${getRandom(5)}`);
 
-    const player2 = new Player({
-      player: 2,
-      name: 'SUB-ZERO',
-      hp: 100,
-      img: 'http://reactmarathon-api.herokuapp.com/assets/subzero.gif',
-    });
+    const p1 = JSON.parse(localStorage.getItem('player1'));
+    const p2 = await fetch(
+      'https://reactmarathon-api.herokuapp.com/api/mk/player/choose'
+    ).then((res) => res.json());
+
+    const player1 = new Player({ ...p1, player: 1 });
+    const player2 = new Player({ ...p2, player: 2 });
 
     this.$arenas.appendChild(createPlayer(player1));
     this.$arenas.appendChild(createPlayer(player2));
